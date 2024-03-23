@@ -1,0 +1,20 @@
+{
+  "name": "Plug",
+  "version": "1.0.0",
+  "description": "A brief description of savey app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.17.1",
+    "gitignore": "^0.7.0",
+    "mongodb": "^5.1.0",
+    "mongoose": "^7.0.3",
+    "pino": "^8.11.0",
+    "pino-pretty": "^10.0.0"
+  },
+  "license": "MIT"
+}
