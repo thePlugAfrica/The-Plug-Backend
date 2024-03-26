@@ -1,3 +1,11 @@
-// write user routes logic here
+import express from 'express';
+import { login, resendOTP, signUp, verifyOTP } from '../controllers/user.controllers.js';
+const router = express.Router();
 
-import express from "express";
+router.post('/signup', signUp)
+router.post('/login', login)
+router.post('/verify', verifyOTP)
+router.post('/resend', resendOTP)
+
+
+export default router
