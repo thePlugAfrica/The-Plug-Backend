@@ -46,7 +46,7 @@ const registerSchema = Joi.object({
 });
 
 const otpSchema = Joi.object({
-  otpCode: Joi.string().min(6).max(6).required(),
+  otpCode: Joi.string().min(0).max(4).required(),
 });
 
 const updateArtisan = Joi.object({
@@ -59,4 +59,9 @@ const updateArtisan = Joi.object({
   area: Joi.string().required(),
 });
 
-export  { validateRequest, schemas,registerSchema,otpSchema,updateArtisan};
+const validateService = Joi.object({
+  serviceName: Joi.string().required(),
+  price: Joi.number().positive().required(),
+})
+
+export  { validateRequest, schemas,registerSchema,otpSchema,updateArtisan,validateService};

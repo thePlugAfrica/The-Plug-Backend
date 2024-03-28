@@ -1,10 +1,11 @@
 import nodemailer from 'nodemailer';
 import verificationTemplate from '../templates/verification-template.js';
+import { errorResMsg } from '../lib/response.js';
 
 
 
 
-const sendVerificationEmail = async (email,Otp) => {
+const sendVerificationEmail = async (email,fullName,otp) => {
     try {
       const transporter = nodemailer.createTransport({
         host:  "smtp.gmail.com",
@@ -20,7 +21,7 @@ const sendVerificationEmail = async (email,Otp) => {
         from: process.env.EMAIL_NODEMAILER,
         to: email,
         subject: "Verification OTP",
-        html: verificationTemplate(Otp),
+        html: verificationTemplate(fullName,otp),
       };
       const info = await transporter.sendMail(mailOptions);
       console.log(
@@ -29,7 +30,7 @@ const sendVerificationEmail = async (email,Otp) => {
       );
     } catch (error) {
       console.log("Email error:", error.message);
-      throw new error("Couldn't send verification OTP.");
+      return errorResMsg(res, 500, error.message,"Couldn't send verification OTP.");
     }
   };
 

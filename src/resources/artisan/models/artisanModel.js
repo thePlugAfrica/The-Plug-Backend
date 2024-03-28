@@ -40,8 +40,8 @@ const artisanSchema = new mongoose.Schema(
     area: {
       type: String,
     },
-    companyName:{
-type:String,
+    companyName: {
+      type: String,
     },
     profession: {
       type: String,
@@ -58,12 +58,16 @@ type:String,
       type: String,
       expire: "10m",
     },
+    idCardImage: {
+      type: [String],
+      default: [],
+    },
     workPic: {
       type: String,
     },
-    isVerified:{
-      type:String,
-      default:"false"
+    isVerified: {
+      type: String,
+      default: "false",
     },
     role: { type: String, enum: ["artisan", "user"], default: "artisan" },
   },
@@ -73,4 +77,5 @@ type:String,
   }
 );
 
-export default mongoose.model("Artisan", artisanSchema);
+const Artisan = mongoose.model("Artisan", artisanSchema);
+export default Artisan;
