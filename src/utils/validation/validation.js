@@ -40,4 +40,44 @@ const schemas = {
     })
 }
 
-export { validateRequest, schemas, signUpSchema };
+const registerSchema = Joi.object({
+  fullName:Joi.string().required(),
+  email: Joi.string()
+  .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+  .required(),
+  password: Joi.string().min(8).trim().required().messages({
+    "string.pattern.base": `Password should be 8 characters and contain letters or numbers only`,
+    "string.empty": `Password cannot be empty`,
+    "any.required": `Password is required`,
+  }),
+  phoneNumber: Joi.string()
+    .max(10)
+    .pattern(/[6-9]{1}[0-9]{9}/)
+    .optional(),
+    role: Joi.string()
+    .valid("artisan", "user")
+    .default("artisan")
+    .optional(),
+    countryCode: Joi.string().max(5).required(),
+});
+
+const otpSchema = Joi.object({
+  otpCode: Joi.string().min(0).max(4).required(),
+});
+
+const updateArtisan = Joi.object({
+  companyName: Joi.string().required(),
+  profession: Joi.string().required(),
+  yearOfExperience: Joi.number().required(),
+  residentialAdd: Joi.string().required(),
+  country: Joi.string().required(),
+  state: Joi.string().required(),
+  area: Joi.string().required(),
+});
+
+const validateService = Joi.object({
+  serviceName: Joi.string().required(),
+  price: Joi.number().positive().required(),
+})
+
+export  { validateRequest, schemas,registerSchema,otpSchema,updateArtisan,validateService};
