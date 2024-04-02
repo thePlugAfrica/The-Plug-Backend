@@ -7,6 +7,7 @@ import { signUpSchema } from "../../../utils/validation/validation.js";
 import User from "../models/user.Models.js";
 import ejs from "ejs";
 import path from "path";
+import {v4 as uuidv4} from "uuid";
 import { createJwtToken } from "../../../middleware/isAuthenticated.js";
 
 // Generate random OTP
@@ -239,9 +240,10 @@ export const forgotPassword = async (req, res, next) => {
     if (!user) {
       return errorResMsg(res, 404, "User not found");
     }
-
-    // Generate reset token
-    const resetToken = generateResetToken();
+    // Get the directory name of the current module
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+// Generate reset token
+const resetToken = uuidv4();
 
     // Save reset token and expiry in user's document
     user.resetToken = resetToken;
@@ -252,7 +254,8 @@ export const forgotPassword = async (req, res, next) => {
     const resetLink = `${process.env.RESET_PASSWORD_URL}?token=${resetToken}`;
     const emailTemplate = await ejs.renderFile(
       path.join(__dirname, "../../../utils/email/resetPassword.ejs"),
-      { resetLink }
+      { title: "Reset Password",
+      resetLink }
     );
 
     // Send email with reset link
@@ -275,7 +278,8 @@ export const forgotPassword = async (req, res, next) => {
 // resetPassword.controller.js
 export const resetPassword = async (req, res, next) => {
   try {
-    const { token, password, confirmPassword } = req.body;
+    const {  password, confirmPassword } = req.body;
+    const {  token } = req.query;
 
     // Find the user by reset token
     const user = await User.findOne({ resetToken: token });
@@ -316,7 +320,7 @@ export const resetPassword = async (req, res, next) => {
 // verifyResetLink.controller.js
 export const verifyResetLink = async (req, res, next) => {
   try {
-    const { token } = req.params;
+    const { token } = req.query;
 
     // Find the user by reset token
     const user = await User.findOne({ resetToken: token });
