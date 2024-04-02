@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { errorResMsg } from "../utils/lib/response";
-import logger from "../utils/log/logger";
+import { errorResMsg } from "../utils/lib/response.js";
+
 
 
 const isAuthenticated = (req, res, next) => {
@@ -18,6 +18,5 @@ const isAuthenticated = (req, res, next) => {
     return errorResMsg(res, 401, "Authentication failed: 🔒🔒🔒🔒🔒");
   }
 };
-
 
 export default isAuthenticated;
