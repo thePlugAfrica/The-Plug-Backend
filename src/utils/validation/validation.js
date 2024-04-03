@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const validateRequest = (schema) => {
   return (req, res, next) => {
@@ -31,20 +31,19 @@ const signUpSchema = Joi.object({
     .optional(),
 });
 
-
 const schemas = {
-    authSchema: Joi.object({
-        email: Joi.string().email().required(),
-        password: Joi.string().min(6).required(),
-        phone: Joi.string().min(10).max(10).required(),
-    })
-}
+  authSchema: Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+    phone: Joi.string().min(10).max(10).required(),
+  }),
+};
 
 const registerSchema = Joi.object({
-  fullName:Joi.string().required(),
+  fullName: Joi.string().required(),
   email: Joi.string()
-  .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-  .required(),
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .required(),
   password: Joi.string().min(8).trim().required().messages({
     "string.pattern.base": `Password should be 8 characters and contain letters or numbers only`,
     "string.empty": `Password cannot be empty`,
@@ -54,11 +53,8 @@ const registerSchema = Joi.object({
     .max(10)
     .pattern(/[6-9]{1}[0-9]{9}/)
     .optional(),
-    role: Joi.string()
-    .valid("artisan", "user")
-    .default("artisan")
-    .optional(),
-    countryCode: Joi.string().max(5).required(),
+  role: Joi.string().valid("artisan", "user").default("artisan").optional(),
+  countryCode: Joi.string().max(5).required(),
 });
 
 const otpSchema = Joi.object({
@@ -78,6 +74,14 @@ const updateArtisan = Joi.object({
 const validateService = Joi.object({
   serviceName: Joi.string().required(),
   price: Joi.number().positive().required(),
-})
+});
 
-export  { validateRequest, schemas,registerSchema,otpSchema,updateArtisan,validateService};
+export {
+  validateRequest,
+  schemas,
+  registerSchema,
+  otpSchema,
+  updateArtisan,
+  validateService,
+  signUpSchema,
+};
