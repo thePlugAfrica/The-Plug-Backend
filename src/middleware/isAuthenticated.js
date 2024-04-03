@@ -18,4 +18,11 @@ export const isAuthenticated = (req, res, next) => {
   }
 };
 
-export default isAuthenticated;
+export const createJwtToken = (payload) => {
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: '2day',
+  });
+  return token;
+};
+
+
